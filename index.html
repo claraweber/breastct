@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.css" rel="stylesheet" media="all" crossorigin="anonymous">
+    <link href="stylesheet.css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+    <title>Breast CT Algorithm</title>
+  </head>
+  <body>
+    <header>
+      <h1>Breast CT Algorithm</h1>
+    </header>
+    <div class="row" style="margin: 10px">
+      <p>This algorithm will determine breast implant volume based on CT-extracted measurements. <br>
+        Fill in the fields below to get an estimation of volume.</p></div>
+<div class="container">
+  <div class="row">
+        <div class="col-8">
+            <form action="/action_page.php" method="post" class="form-container">
+              <label for="axdim"><b>Axial Diameter</b></label>
+              <input type="text" placeholder="Axial Diameter" id="axdim" required><br>
+              <label for="axproj"><b>Axial Projection</b></label>
+              <input type="text" placeholder="Axial Projection" id="axproj" required><br>
+              <label for="bmi"><b>Body-Mass-Index</b> (BMI)</label>
+              <input type="text" placeholder="BMI in kg/m2" id="bmi" required><br>
+              <label for="sadim"><b>Sagittal Diameter</b></label>
+              <input type="text" placeholder="Sagittal Diameter" id="sadim" required><br>
+              <label for="saproj"><b>Sagittal Projection</b></label>
+              <input type="text" placeholder="Sagital Projection" id="saproj" required>
+            </form>
+                <button type="submit" class="button" onclick="submit()">Calculate Volume</button>
+                <button type="button" class="button" onclick="closeForm()">Cancel</button>
+          </div>
+      <div class="col-4">
+        Results are shown here. Based on your input, the calculated volume is <br>
+        <h1><span id='result'> 0 </span> mm </h1><br>
+        Please consider this information about standard deviation of the provided information.
+        </div>
+      </div>
+      <script type="text/javascript">
+        function closeForm() {
+          alert('Cancelled!')
+        }
+        var volume = 0;
+        function submit() {
+          var axialdim = document.getElementById('axdim').value;
+          var axialproj = document.getElementById('axproj').value;
+          var bmindex = document.getElementById('bmi').value;
+          var sagittaldim= document.getElementById('sadim').value;
+          var sagittalproj= document.getElementById('saproj').value;
+          var volume = 0;
+          volume = -873.3+ (3.9* axialdim) +
+          (4.0*axialproj) +(4.8*bmindex) +
+          (3.0* sagittaldim) + (2.3* sagittalproj);
+          console.log(axdim, axproj, bmi, bmindex);
+          document.getElementById('result').innerHTML= volume;
+
+        }
+      </script>
+      <div class="row">
+        Contributors:
+      </div>
+      </div>
+  <footer>
+    Yale School of Medicine
+  </footer>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  </body>
+</html>
