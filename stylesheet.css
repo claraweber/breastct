@@ -38,22 +38,19 @@ height: 80px;
 
 .button{
   text-align: center;
-  align-items:center;
+  align-items: center;
+  justify-content: center;
   border: none;
+  padding: 10px;
   color: black;
-  height:40px;
   display: inline-flex;
-  width: 33%;
-  text-align:center;
-  font-size: 15px;
-  padding:15px;
-  text-align: center;
+  width: 49%;
+  font-size: 20px;
   background-color: #lightgrey;
 }
 
 .button:hover{
-  height: 40px;
-  background-color: #grey;
+  background-color: grey;
 }
 
 .form-container {
@@ -61,6 +58,7 @@ height: 80px;
   border: 20px solid white;
   background-color: white;
 }
+
 .body{
   margin-left: 10%;
   margin-right: 10%;
@@ -68,21 +66,27 @@ height: 80px;
 
 /* Full-width input fields */
 .form-container input[type=text], .form-container input[type=float] {
-  padding: 15px;
-  margin: 5px 0 12px 0;
+  padding: 10px;
+  margin: 5px 0 8px 0;
   border: none;
+  width: 100%;
   background: #f1f1f1;
   display: inline-flex;
+  justify-content: center;;
+  align-items: right;
 }
 
 .label{
-  width:20%;
+  align-items: center;
+  justify-content: center
 }
 /* When the inputs get focus, do something */
 .form-container input[type=text]:focus, .form-container input[type=float]:focus {
   background-color: #ddd;
   outline: none;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .span{
