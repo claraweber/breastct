@@ -13,33 +13,75 @@
   </head>
   <body>
     <header>
-      <h1>Breast CT Algorithm</h1>
+      Breast CT Algorithm
+      <h1 style="font-size: 25px"> Breast Implant Volume Calculator </h1>
     </header>
     <div class="row" style="margin: 10px">
       <p>This algorithm will determine breast implant volume based on CT-extracted measurements. <br>
         Fill in the fields below to get an estimation of volume.</p></div>
 <div class="container">
   <div class="row">
-        <div class="col-8">
+        <div class="col-6">
             <form action="/action_page.php" method="post" class="form-container">
-              <label for="axdim"><b>Axial Diameter</b></label>
+              <label for="axdim"><b>Axial Diameter</b> in mm</label><br>
               <input type="text" placeholder="Axial Diameter" id="axdim" required><br>
-              <label for="axproj"><b>Axial Projection</b></label>
+              <label for="axproj"><b>Axial Projection</b> in mm</label><br>
               <input type="text" placeholder="Axial Projection" id="axproj" required><br>
-              <label for="bmi"><b>Body-Mass-Index</b> (BMI)</label>
-              <input type="text" placeholder="BMI in kg/m2" id="bmi" required><br>
-              <label for="sadim"><b>Sagittal Diameter</b></label>
+              <label for="bmi"><b>Body-Mass-Index</b> (BMI) in kg/m2</label><br>
+              <input type="text" placeholder="BMI" id="bmi" required><br>
+              <label for="sadim"><b>Sagittal Diameter</b> in mm</label><br>
               <input type="text" placeholder="Sagittal Diameter" id="sadim" required><br>
-              <label for="saproj"><b>Sagittal Projection</b></label>
+              <label for="saproj"><b>Sagittal Projection</b> in mm</label><br>
               <input type="text" placeholder="Sagital Projection" id="saproj" required>
             </form>
                 <button type="submit" class="button" onclick="submit()">Calculate Volume</button>
                 <button type="button" class="button" onclick="closeForm()">Cancel</button>
           </div>
-      <div class="col-4">
+      <div class="col-6">
         Results are shown here. Based on your input, the calculated volume is <br>
-        <h1><span id='result'> 0 </span> mm&#179; </h1><br>
-        Please consider this information about standard deviation of the provided information.
+        <h1><span id='result'> 0 </span> mm³</h1><br>
+        Please consider this information about standard deviation of the provided information: <br>
+        The algorithm used for volume prediction showed the folowing distribution of erroneous predictions:<br>
+        <div class="chart-container"><canvas id="chart" style="width:100%; height:100%"></canvas></div>
+        (prediction error in mm³)
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script type="text/javascript">
+          const footer = (tooltipItems) => {
+            let sum =0;
+            tooltipItems.forEach(function(tooltipItem){
+              sum +=tooltipItem.parsed.y;
+            });
+            return 'Sum: '+sum;
+          };
+          var data = {labels: ["-132","-88","-44","0","44","88", "132"],
+          datasets:[{
+            backgroundColor: "rgba(255,99,132,0.2)",
+            borderColor: "rgba(255,99,132,1)",
+            borderWidth: 2,
+            tension: 0.4,
+            fill: true,
+            data: [0, 0.5, 2, 7, 2, 0.5, 0]}
+          ],
+          tipData : ["-3 SD", "-2 SD", "-SD", "mean", "SD", "2SD", "3SD"]
+        }
+        var ttlab = ["-3 SD", "-2 SD", "-SD", "mean", "SD", "2SD", "3SD"];
+          var options = {
+            responsive: true,
+            scales: {
+              x: {display: true},
+              y: {display: false},
+            },
+            plugins: {
+              legend: {display: false},
+            }
+          };
+
+          new Chart('chart',{
+            type:'line',
+            options: options,
+            data:data
+          })
+        </script>
         </div>
       </div>
       <script type="text/javascript">
@@ -54,21 +96,54 @@
           var sagittaldim= document.getElementById('sadim').value;
           var sagittalproj= document.getElementById('saproj').value;
           var volume = 0;
+          if (axialdim < 20) {
+            alert("Axial Diameter is too low. Must be >20mm")
+          } else if (axialdim > 200) {
+            alert("Axial Diameter is too high. Must be <200mm")
+          } else {
+            calculatevolume ()
+          }
+          if (axialproj < 20) {
+            alert("Axial Projection is too low. Must be >20mm")
+          } else if (axialproj > 200) {
+            alert("Axial Projection is too high. Must be <200mm")
+          } else {
+            calculatevolume ()
+          }
+          if (sagittaldim < 20) {
+            alert("Sagittal Diameter is too low. Must be >20mm")
+          } else if (sagittaldim > 200) {
+            alert("Saggital Diameter is too high. Must be <200mm")
+          } else {
+            calculatevolume ()
+          }
+          if (sagittalproj < 20) {
+            alert("Sagittal Projection is too low. Must be >20mm")
+          } else if (sagittalproj > 200) {
+            alert("Sagittal Projection is too high. Must be <200mm")
+          } else {
+            calculatevolume ()
+          }
+        function calculatevolume (){
           volume = -873.3+ (3.9* axialdim) +
           (4.0*axialproj) +(4.8*bmindex) +
           (3.0* sagittaldim) + (2.3* sagittalproj);
-          console.log(axdim, axproj, bmi, bmindex);
-          document.getElementById('result').innerHTML= volume;
-
+          if (volume < 0){
+            alert("Values do not produce conclusive result. Please check input!")
+          } else {
+          document.getElementById('result').innerHTML= volume;}
         }
+      }
       </script>
-      <div class="row">
+      <div class="row" style="margin: 10px">
+        Please report bugs to clara.weber@yale.edu.<br>
         Contributors:
       </div>
       </div>
   <footer>
-    Yale School of Medicine
+    <h1>Yale School of Medicine</h1>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   </body>
 </html>
