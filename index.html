@@ -27,23 +27,23 @@
               <input type="text" placeholder="Axial Diameter" id="axdim" required><br>
               <label for="axproj" class="label" id="axprojlabel"><b>Axial Projection</b> in mm</label><br>
               <input type="text" placeholder="Axial Projection" id="axproj" required><br>
-              <label for="bmi" class="label"><b>Body-Mass-Index</b> (BMI) in kg/m2</label><br>
-              <input type="text" placeholder="BMI" id="bmi" required><br>
               <label for="sadim" class="label" id="sadimlabel"><b>Sagittal Diameter</b> in mm</label><br>
               <input type="text" placeholder="Sagittal Diameter" id="sadim" required><br>
               <label for="saproj" class="label" id="saprojlabel"><b>Sagittal Projection</b> in mm</label><br>
               <input type="text" placeholder="Sagital Projection" id="saproj" required>
+              <label for="bmi" class="label"><b>Body-Mass-Index</b> (BMI) in kg/m2</label><br>
+              <input type="text" placeholder="BMI" id="bmi" required><br>
             </form>
                 <button type="submit" class="button" onclick="submit()">Calculate Volume</button>
                 <button type="button" class="button" onclick="closeForm()">Cancel</button>
           </div>
       <div class="col-6">
         Results are shown here. Based on your input, the calculated volume is <br>
-        <h1><span id='result'> 0 </span> mm³</h1><br>
+        <h1><span id='result'> 0 </span> cc</h1><br>
         Please consider this information about standard deviation of the provided information: <br>
         The algorithm used for volume prediction showed the folowing distribution of erroneous predictions:<br>
         <div class="chart-container"><canvas id="chart" style="width:100%; height:100%"></canvas></div>
-        (prediction error in mm³)
+        (prediction error in cc)
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script type="text/javascript">
           const footer = (tooltipItems) => {
@@ -144,7 +144,7 @@
           if (volume < 0){
             alert("Values do not produce conclusive result. Please check input!")
           } else {
-          document.getElementById('result').innerHTML= volume;}
+          document.getElementById('result').innerHTML= Math.round(volume);}
         }
       }
       </script>
@@ -154,6 +154,7 @@
       </div>
       </div>
   <footer>
+    <img src="logo.png" alt="" style="justify-content: center; width: 30%; vertical-align:center">
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
