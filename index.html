@@ -23,15 +23,15 @@
   <div class="row">
         <div class="col-6">
             <form action="/action_page.php" method="post" class="form-container">
-              <label for="axdim"><b>Axial Diameter</b> in mm</label><br>
+              <label for="axdim" class="label" id="axdimlabel"><b>Axial Diameter</b> in mm</label><br>
               <input type="text" placeholder="Axial Diameter" id="axdim" required><br>
-              <label for="axproj"><b>Axial Projection</b> in mm</label><br>
+              <label for="axproj" class="label" id="axprojlabel"><b>Axial Projection</b> in mm</label><br>
               <input type="text" placeholder="Axial Projection" id="axproj" required><br>
-              <label for="bmi"><b>Body-Mass-Index</b> (BMI) in kg/m2</label><br>
+              <label for="bmi" class="label"><b>Body-Mass-Index</b> (BMI) in kg/m2</label><br>
               <input type="text" placeholder="BMI" id="bmi" required><br>
-              <label for="sadim"><b>Sagittal Diameter</b> in mm</label><br>
+              <label for="sadim" class="label" id="sadimlabel"><b>Sagittal Diameter</b> in mm</label><br>
               <input type="text" placeholder="Sagittal Diameter" id="sadim" required><br>
-              <label for="saproj"><b>Sagittal Projection</b> in mm</label><br>
+              <label for="saproj" class="label" id="saprojlabel"><b>Sagittal Projection</b> in mm</label><br>
               <input type="text" placeholder="Sagital Projection" id="saproj" required>
             </form>
                 <button type="submit" class="button" onclick="submit()">Calculate Volume</button>
@@ -86,7 +86,8 @@
       </div>
       <script type="text/javascript">
         function closeForm() {
-          alert('Cancelled!')
+          alert('Cancelled!');
+          document.getElementById('result').innerHTML = 0;
         }
         var volume = 0;
         function submit() {
@@ -97,34 +98,46 @@
           var sagittalproj= document.getElementById('saproj').value;
           var volume = 0;
           if (axialdim < 20) {
+            document.getElementById("axdimlabel").style.color = 'red';
             alert("Axial Diameter is too low. Must be >20mm")
           } else if (axialdim > 200) {
+            document.getElementById("axdimlabel").style.color = 'red';
             alert("Axial Diameter is too high. Must be <200mm")
           } else {
             calculatevolume ()
           }
           if (axialproj < 20) {
+            document.getElementById("axprojlabel").style.color = 'red';
             alert("Axial Projection is too low. Must be >20mm")
           } else if (axialproj > 200) {
+            document.getElementById("axprojlabel").style.color = 'red';
             alert("Axial Projection is too high. Must be <200mm")
           } else {
             calculatevolume ()
           }
           if (sagittaldim < 20) {
+            document.getElementById("sadimlabel").style.color = 'red';
             alert("Sagittal Diameter is too low. Must be >20mm")
           } else if (sagittaldim > 200) {
+            document.getElementById("sadimlabel").style.color = 'red';
             alert("Saggital Diameter is too high. Must be <200mm")
           } else {
             calculatevolume ()
           }
           if (sagittalproj < 20) {
-            alert("Sagittal Projection is too low. Must be >20mm")
+            document.getElementById("saprojlabel").style.color = 'red';
+            alert("Sagittal Projection is too low. Must be >20mm");
           } else if (sagittalproj > 200) {
+            document.getElementById("saprojlabel").style.color = 'red';
             alert("Sagittal Projection is too high. Must be <200mm")
           } else {
             calculatevolume ()
           }
         function calculatevolume (){
+          document.getElementById('axdimlabel').style.color='black';
+          document.getElementById('axprojlabel').style.color='black';
+          document.getElementById('sadimlabel').style.color='black';
+          document.getElementById('saprojlabel').style.color='black';
           volume = -873.3+ (3.9* axialdim) +
           (4.0*axialproj) +(4.8*bmindex) +
           (3.0* sagittaldim) + (2.3* sagittalproj);
