@@ -7,8 +7,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.css" rel="stylesheet" media="all" crossorigin="anonymous">
     <link href="stylesheet.css" rel="stylesheet"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+    <script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
     <title>Breast CT Algorithm</title>
   </head>
   <body>
@@ -16,7 +17,7 @@
       Breast CT Algorithm
       <h1 style="font-size: 25px"> Breast Implant Volume Calculator </h1>
     </header>
-    <div class="row" style="margin: 10px">
+    <div class="row" style="margin: 10px; text-align: center">
       <p>This algorithm will determine breast implant volume based on CT-extracted measurements. <br>
         Fill in the fields below to get an estimation of volume.</p></div>
 <div class="container">
@@ -43,17 +44,12 @@
         Please consider this information about standard deviation of the provided information: <br>
         The algorithm used for volume prediction showed the folowing distribution of erroneous predictions:<br>
         <div class="chart-container"><canvas id="chart" style="width:100%; height:100%"></canvas></div>
-        (prediction error in cc)
+        Prediction error in cc for mean (predicted volume) and anticipated error in standard deviations. Second line shows adjusted values to volume in question.
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script type="text/javascript">
-          const footer = (tooltipItems) => {
-            let sum =0;
-            tooltipItems.forEach(function(tooltipItem){
-              sum +=tooltipItem.parsed.y;
-            });
-            return 'Sum: '+sum;
-          };
-          var data = {labels: ["-132","-88","-44","0","44","88", "132"],
+          var xlabels = [["-3 SD", "-132", ""], ["-2 SD", "-88", ""], ["-SD","-44", ""],["mean","± 0", ""], ["SD", "+44", ""], ["2 SD", "+88", ""], ["3SD", "+132", ""]];
+          function plot (xlabels){
+          var data = {labels: xlabels,
           datasets:[{
             backgroundColor: "rgba(255,99,132,0.2)",
             borderColor: "rgba(255,99,132,1)",
@@ -62,9 +58,7 @@
             fill: true,
             data: [0, 0.5, 2, 7, 2, 0.5, 0]}
           ],
-          tipData : ["-3 SD", "-2 SD", "-SD", "mean", "SD", "2SD", "3SD"]
         }
-        var ttlab = ["-3 SD", "-2 SD", "-SD", "mean", "SD", "2SD", "3SD"];
           var options = {
             responsive: true,
             scales: {
@@ -73,14 +67,19 @@
             },
             plugins: {
               legend: {display: false},
+            },
+            tooltips: {
+              enabled: false,
             }
           };
 
           new Chart('chart',{
             type:'line',
             options: options,
-            data:data
+            data: data
           })
+        }
+        plot(xlabels);
         </script>
         </div>
       </div>
@@ -142,9 +141,13 @@
           (4.0*axialproj) +(4.8*bmindex) +
           (3.0* sagittaldim) + (2.3* sagittalproj);
           if (volume < 0){
-            alert("Values do not produce conclusive result. Please check input!")
+            alert("Values do not produce conclusive result. Please check input!");
+            cancel()
           } else {
           document.getElementById('result').innerHTML= Math.round(volume);}
+          document.getElementsByClassName('canvas').innerHTML = "";
+          xlabels = [["-3 SD", "-132", Math.round(volume-132)], ["-2 SD", "-88", Math.round(volume-88)], ["-SD", "-44", Math.round(volume-44)],["mean", "± 0", Math.round(volume)], ["SD", "+44", Math.round(volume+44)], ["2 SD", "+88", Math.round(volume+88)], ["3SD", "+132", Math.round(volume+132)]];
+          plot(xlabels);
         }
       }
       </script>
