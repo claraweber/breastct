@@ -152,7 +152,7 @@
           } else {
           document.getElementById('result').innerHTML= Math.round(volume);}
           document.getElementById('chart').remove();
-          document.getElementById("chart-container").innerHTML='<canvas id="chart"></canvas>';
+          document.getElementById("chart-container").innerHTML='<canvas style="height: 100%" id="chart"></canvas>';
           xlabels = [["-3 SD", "-132", Math.round(volume-132)], ["-2 SD", "-88", Math.round(volume-88)], ["-SD", "-44", Math.round(volume-44)],["mean", "± 0", Math.round(volume)], ["SD", "+44", Math.round(volume+44)], ["2 SD", "+88", Math.round(volume+88)], ["3SD", "+132", Math.round(volume+132)]];
           var data = {labels: xlabels,
           datasets:[{
